@@ -1,0 +1,135 @@
+<app-header></app-header>
+
+<div class="container">
+  <h1 style="text-align: center;">External page</h1>
+  <div class="form-card">
+    <form [formGroup]="externalForm" (ngSubmit)="onSubmit()">
+      <!-- Team Size and Domain -->
+      <div class="row">
+        <div class="col">
+          <label for="TeamSelect" class="form-label">Team size</label>
+          <select class="form-select" id="TeamSelect" formControlName="teamSize">
+            <option selected disabled>Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="DomainSelect" class="form-label">Select Domain</label>
+          <select class="form-select" id="DomainSelect" formControlName="domain">
+            <option selected disabled>Select</option>
+            <option value="Industry">Industry</option>
+            <option value="Own">Own</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Project Title -->
+      <div class="form-group">
+        <label for="Project" class="form-label">Project Title</label>
+        <input type="text" class="form-control" id="Project" formControlName="projectTitle" placeholder="Enter Title">
+      </div>
+
+      <!-- Team Name -->
+      <div class="form-group">
+        <label for="T_name" class="form-label">Team Name</label>
+        <input type="text" class="form-control" id="T_name" formControlName="teamName" placeholder="Enter Team name">
+      </div>
+
+      <div class="form-group">
+        <label for="Guideselect" class="form-label">Guide</label>
+        <select class="form-select" id="Guideselect" formControlName="guide" required>
+          <option selected disabled>Select Guide</option>
+          <option *ngFor="let guide of guides" [value]="guide._id">
+            {{ guide.guideName }} - {{ guide.department }} - {{ guide.ph_no }}
+          </option>
+        </select>
+        <div *ngIf="externalForm.get('guide')?.invalid && externalForm.get('guide')?.touched" class="text-danger">
+          Guide selection is required.
+        </div>
+        
+      </div>
+      
+
+      <!-- Member 1 Details -->
+      <div class="row">
+        <div class="col">
+          <label for="member1Name" class="form-label">Team Leader</label>
+          <input type="text" class="form-control" id="member1Name" formControlName="leaderName" placeholder="Enter Name">
+        </div>
+        <div class="col">
+          <label for="leaderRoll" class="form-label">Leader Roll no.</label>
+          <input type="text" class="form-control" id="leaderRoll" formControlName="leaderRoll" placeholder="Enter Roll No.">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="email1" class="form-label">Email</label>
+          <input type="text" class="form-control" id="email1" formControlName="email1" placeholder="Enter email">
+        </div>
+        <div class="col">
+          <label for="Department1" class="form-label">Department</label>
+          <input type="text" class="form-control" id="Department1" formControlName="department1" placeholder="Enter department">
+        </div>
+      </div>
+
+      <!-- Member 2 Details -->
+      <div class="row">
+        <div class="col">
+          <label for="member2Name" class="form-label">Member 2</label>
+          <input type="text" class="form-control" id="member2Name" formControlName="member2Name" placeholder="Enter Name">
+        </div>
+        <div class="col">
+          <label for="member2Roll" class="form-label">Roll no. 2</label>
+          <input type="text" class="form-control" id="member2Roll" formControlName="member2Roll" placeholder="Enter Roll No.">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="email2" class="form-label">Email 2</label>
+          <input type="text" class="form-control" id="email2" formControlName="email2" placeholder="Enter email">
+        </div>
+        <div class="col">
+          <label for="Department2" class="form-label">Department 2</label>
+          <input type="text" class="form-control" id="Department2" formControlName="department2" placeholder="Enter department">
+        </div>
+      </div>
+
+      <!-- Member 3 Details -->
+      <div class="row">
+        <div class="col">
+          <label for="member3Name" class="form-label">Member 3</label>
+          <input type="text" class="form-control" id="member3Name" formControlName="member3Name" placeholder="Enter Name">
+        </div>
+        <div class="col">
+          <label for="member3Roll" class="form-label">Roll no. 3</label>
+          <input type="text" class="form-control" id="member3Roll" formControlName="member3Roll" placeholder="Enter Roll No.">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="email3" class="form-label">Email 3</label>
+          <input type="text" class="form-control" id="email3" formControlName="email3" placeholder="Enter email">
+        </div>
+        <div class="col">
+          <label for="Department3" class="form-label">Department 3</label>
+          <input type="text" class="form-control" id="Department3" formControlName="department3" placeholder="Enter department">
+        </div>
+      </div>
+
+      <!-- Readonly Fields -->
+      <div class="form-group">
+        <label for="Type" class="form-label">Type</label>
+        <input type="text" class="form-control" id="Type" formControlName="type" readonly>
+      </div>
+      <div class="form-group">
+        <label for="Status" class="form-label">Status</label>
+        <input type="text" class="form-control" id="Status" formControlName="status" readonly>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="externalForm.invalid">Submit</button>
+    </form>
+  </div>
+</div>

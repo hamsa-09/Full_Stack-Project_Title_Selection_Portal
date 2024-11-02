@@ -1,0 +1,139 @@
+<app-header></app-header>
+
+<div class="container">
+  <h1 style="text-align: center;">Internal page</h1>
+  <div class="form-card">
+    <form [formGroup]="internalForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col">
+          <label for="TeamSelect" class="form-label">Team size</label>
+          <select class="form-select" id="TeamSelect" formControlName="teamSize">
+            <option selected disabled>Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+          
+        </div>
+        <div class="col">
+          <label for="ClusterSelect" class="form-label">Cluster</label>
+          <select class="form-select" id="ClusterSelect" formControlName="cluster">
+            <option selected disabled>Select</option>
+            <option value="CSE">CSE</option>
+            <option value="ECE">ECE</option>
+            <option value="IT">IT</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="Projectselect" class="form-label">Project</label>
+        <select class="form-select" id="Projectselect" formControlName="projectTitle">
+          <option selected disabled>Select Project</option>
+          <option *ngFor="let project of projectTitles" [value]="project._id">{{ project.internalTitle }}</option>
+        </select>
+        <div *ngIf="internalForm.get('projectTitle')?.invalid && internalForm.get('projectTitle')?.touched" class="text-danger">
+         Projectselection is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Team-name" class="form-label">Team Name</label>
+        <input type="text" class="form-control" id="T_name" formControlName="teamName" placeholder="Enter Team name">
+
+      </div>
+      <div class="form-group">
+        <label for="Guideselect" class="form-label">Guide</label>
+        <select class="form-select" id="Guideselect" formControlName="guide" required>
+          <option selected disabled>Select Guide</option>
+          <option *ngFor="let guide of guides" [value]="guide._id">
+            {{ guide.guideName }}-{{ guide.department }}-{{ guide.email}}
+          </option>
+        </select>
+        <div *ngIf="internalForm.get('guide')?.invalid && internalForm.get('guide')?.touched" class="text-danger">
+          Guide selection is required.
+        </div>
+        
+      </div>
+
+      
+      
+      
+      <div class="row">
+        <div class="col">
+          <label for="member1Name" class="form-label">Team Leader</label>
+          <input type="text" class="form-control" id="member1Name" formControlName="leaderName" placeholder="Enter name" >
+        </div>
+        <div class="col">
+          <label for="member1Roll" class="form-label">Roll no. 1</label>
+          <input type="text" class="form-control" id="member1Roll" formControlName="leaderRoll" placeholder="Enter Roll number">
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="email" class="form-label">Email 1</label>
+          <input type="text" class="form-control" id="email" formControlName="email1" placeholder="Enter email">
+        </div>
+        <div class="col">
+          <label for="Department" class="form-label">Department 1</label>
+          <input type="text" class="form-control" id="Department" formControlName="department1" placeholder="Enter department">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="member2Name" class="form-label">Member 2</label>
+          <input type="text" class="form-control" id="member2Name" formControlName="member2Name" placeholder="Enter Name">
+        </div>
+        <div class="col">
+          <label for="member2Roll" class="form-label">Roll no. 2</label>
+          <input type="text" class="form-control" id="member2Roll" formControlName="member2Roll" placeholder="Enter Roll No.">
+        </div>
+      </div>
+      
+  <div class="row">
+    <div class="col">
+      <label for="email2" class="form-label">Email 2</label>
+      <input type="text" class="form-control" id="email2" formControlName="email2" placeholder="Enter email">
+    </div>
+    <div class="col">
+      <label for="Department2" class="form-label">Department 2</label>
+      <input type="text" class="form-control" id="Department2" formControlName="department2" placeholder="Enter department">
+    </div>
+  </div>
+
+      <!-- Member 3 Details -->
+      <div class="row">
+        <div class="col">
+          <label for="member3Name" class="form-label">Member 3</label>
+          <input type="text" class="form-control" id="member3Name" formControlName="member3Name" placeholder="Enter Name">
+        </div>
+        <div class="col">
+          <label for="member3Roll" class="form-label">Roll no. 3</label>
+          <input type="text" class="form-control" id="member3Roll" formControlName="member3Roll" placeholder="Enter Roll No.">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="email3" class="form-label">Email 3</label>
+          <input type="text" class="form-control" id="email3" formControlName="email3" placeholder="Enter email">
+        </div>
+        <div class="col">
+          <label for="Department3" class="form-label">Department 3</label>
+          <input type="text" class="form-control" id="Department3" formControlName="department3" placeholder="Enter department">
+        </div>
+      </div>
+
+     
+      
+      <div class="form-group">
+        <label for="Type" class="form-label">Type</label>
+        <input type="text" class="form-control" id="Type" formControlName="type" readonly>
+      </div>
+      <div class="form-group">
+        <label for="Status" class="form-label">Status</label>
+        <input type="text" class="form-control" id="Status" formControlName="status" readonly>
+      </div>
+      <button type="submit" class="btn-submit" [disabled]="internalForm.invalid">Submit</button>
+    </form>
+  </div>
+</div>

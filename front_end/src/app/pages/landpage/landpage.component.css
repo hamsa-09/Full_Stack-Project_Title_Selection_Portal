@@ -1,0 +1,136 @@
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fffbfb;
+}
+
+.title {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    font-size: 36px;
+    margin-top: 0;
+    margin-bottom: 20px; 
+}
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    position: relative; 
+}
+
+.card h2 {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    font-size: 28px;
+    margin: 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around; 
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 150px; 
+}
+
+.login-option {
+    text-align: center;
+    width: 100%;
+
+    max-width: 180px; 
+}
+
+
+
+.login-image {
+    border-radius: 10%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    width: 150px; 
+    height: 150px; 
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.login-image:hover {
+    transform: scale(1.05);
+}
+
+
+@media (max-width: 768px) {
+    .card {
+        padding: 0;
+        background: transparent; 
+        box-shadow: none;
+        height: auto;
+    }
+
+    .card h2 {
+        font-size: 24px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        top: 20px;
+        margin-bottom: 30px;
+    }
+
+    .button-container {
+        gap: 15px;
+        margin-top: 80px;
+    }
+
+    .login-option {
+        max-width: 160px;
+    }
+
+    .login-image {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+        height: auto;
+    }
+
+    .card h2 {
+        font-size: 22px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        top: 10px;
+        margin-bottom: 40px;
+    }
+
+    .button-container {
+        gap: 10px;
+        margin-top: 80px;
+    }
+
+    .login-option {
+        max-width: 150px;
+    }
+
+    .login-image {
+        width: 100px; 
+        height: 100px;
+    }
+}

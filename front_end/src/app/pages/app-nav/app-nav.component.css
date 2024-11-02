@@ -1,0 +1,166 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .navbar {
+    background-color: #333; 
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    color: #fff; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .navbar-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .menu-icon {
+    font-size: 24px; 
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1000;
+  }
+  
+  .dropdown-menu.show {
+    display: block;
+  }
+
+  .dropdown-item {
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f1f1f1;
+  }
+
+  @media (max-width: 768px) {
+    .navbar-title {
+      font-size: 20px;
+    }
+  
+    .menu-icon {
+      font-size: 20px;
+    }
+  
+    .dropdown-menu {
+      width: 200px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .navbar-title {
+      font-size: 18px;
+    }
+  
+    .menu-icon {
+      font-size: 18px;
+    }
+  
+    .dropdown-menu {
+      width: 180px;
+    }
+  }
+
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 60px;
+  }
+
+  .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s;
+    margin: 20px;
+    width: 300px;
+    height: 250px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card:hover {
+    box-shadow: 0 32px 36px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card img {
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .card-content {
+    font-family: cursive;
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .content-container {
+      flex-direction: column;
+      padding: 10px;
+    }
+  
+    .card {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .content-container {
+      flex-direction: column;
+      padding: 10px;
+    }
+  
+    .card {
+      width: 100%;
+    }
+    .navbar-title {
+      font-size: 18px;
+    }
+  
+    .menu-icon {
+      font-size: 18px;
+    }
+  
+    .dropdown-menu {
+      width: 180px;
+    }
+  }
+  

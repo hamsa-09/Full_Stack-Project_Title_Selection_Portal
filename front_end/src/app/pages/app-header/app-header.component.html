@@ -1,0 +1,14 @@
+<nav class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-title">Project Selection Portal</div>
+      <div class="navbar-menu">
+        <i class="fas fa-bars menu-icon" (click)="toggleMenu()"></i>
+        <div class="dropdown-menu" [ngClass]="{ 'show': menuOpen }">
+          <a routerLink="/layout" class="dropdown-item">Home</a>
+          <a routerLink="/dashboard" class="dropdown-item">Student Dashboard</a>
+          <a (click)="logout()" class="dropdown-item">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  

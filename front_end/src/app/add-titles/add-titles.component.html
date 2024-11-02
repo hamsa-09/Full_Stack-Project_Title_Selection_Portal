@@ -1,0 +1,9 @@
+<app-nav></app-nav>
+
+<div class="container">
+  <h1 style="text-align: center;">Upload Excel File</h1>
+  <div class="form-card">
+    <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+    <button (click)="uploadToDatabase()" class="btn-submit">Upload Internal Titles</button>
+  </div>
+</div>

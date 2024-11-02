@@ -1,0 +1,31 @@
+<app-header></app-header>
+<div class="container">
+  <h1 style="text-align: center;">Student Dashboard</h1>
+  <div class="small-container" *ngIf="studentData">
+    <div class="left-container">
+      <p><b>Team Size  : </b>{{ studentData.teamSize }}</p>
+      <p><b>Cluster    : </b>{{ studentData.cluster }}</p>
+      <p><b>Project   : </b>{{ studentData.projectTitle }}</p>
+      <p><b>Guide  Name   : </b>{{ studentData.guideName }}</p>
+      <p><b>Guide Department    : </b>{{ studentData.guideDepartment }}</p>
+      <p><b>Guide Email    : </b>{{ studentData.guideEmail }}</p>
+      <p><b>Type      : </b>{{ studentData.type }}</p>
+      <p><b>Team Name  : </b>{{ studentData.teamName }}</p>
+      <p><b>Team Leader: </b>{{ studentData.leaderName }}</p>
+      <p><b>Rollno 1   : </b>{{ studentData.leaderRoll }}</p>
+      <p><b>Email 1    : </b>{{ studentData.email1 }}</p>
+      <p><b>Dept 1     : </b>{{ studentData.department1 }}</p>
+    </div>
+    <div class="right-container">
+      <p><b>Member 2   : </b>{{ studentData.member2Name }}</p>
+      <p><b>Rollno 2   : </b>{{ studentData.member2Roll }}</p>
+      <p><b>Email 2    : </b>{{ studentData.email2 }}</p>
+      <p><b>Dept 2     : </b>{{ studentData.department2 }}</p>
+      <p><b>Member 3   : </b>{{ studentData.member3Name }}</p>
+      <p><b>Rollno 3   : </b>{{ studentData.member3Roll }}</p>
+      <p><b>Email 3    : </b>{{ studentData.email3 }}</p>
+      <p><b>Dept 3     : </b>{{ studentData.department3 }}</p>
+      <p><b>Status     : </b>{{ studentData.status }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<app-nav></app-nav>
+<div class="container">
+  <h1 style="text-align: center;">Guide Approval Page</h1>
+
+  <div *ngFor="let guide of guideData" class="small-container">
+    <div class="left-container">
+      <p><b>Team Size  : </b>{{ guide.teamSize }}</p>
+      <p><b>Cluster    : </b>{{ guide.cluster }}</p>
+      <p><b>Project   : </b>{{ guide.projectTitle }}</p>
+      <p><b>Guide Name   : </b>{{ guide.guideName }}</p>
+      <p><b>Guide Department    : </b>{{ guide.guideDepartment }}</p>
+      <p><b>Guide Email    : </b>{{ guide.guideEmail }}</p>
+      <p><b>Type      : </b>{{ guide.type }}</p>
+      <p><b>Team Name  : </b>{{ guide.teamName }}</p>
+      <p><b>Team Leader: </b>{{ guide.leaderName }}</p>
+      <p><b>Rollno 1   : </b>{{ guide.leaderRoll }}</p>
+      <p><b>Email 1    : </b>{{ guide.email1 }}</p>
+      <p><b>Dept 1     : </b>{{ guide.department1 }}</p>
+    </div>
+    <div class="right-container">
+      <p><b>Member 2   : </b>{{ guide.member2Name }}</p>
+      <p><b>Rollno 2   : </b>{{ guide.member2Roll }}</p>
+      <p><b>Email 2    : </b>{{ guide.email2 }}</p>
+      <p><b>Dept 2     : </b>{{ guide.department2 }}</p>
+      <p><b>Member 3   : </b>{{ guide.member3Name }}</p>
+      <p><b>Rollno 3   : </b>{{ guide.member3Roll }}</p>
+      <p><b>Email 3    : </b>{{ guide.email3 }}</p>
+      <p><b>Dept 3    : </b>{{ guide.department3 }}</p>
+      <p><b>Status     : </b>{{ guide.status }}</p>
+      <div class="buttons">
+        <div class="buttons" *ngIf="guide.status !== 'approved' && guide.status !== 'rejected'">
+          <button 
+            class="approve-btn" 
+            [disabled]="guide.isDisabled" 
+            (click)="updateStatus(guide, 'approved')">
+            Approve
+          </button>
+          <button 
+            class="reject-btn" 
+            [disabled]="guide.isDisabled" 
+            (click)="updateStatus(guide, 'rejected')">
+            Reject
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
