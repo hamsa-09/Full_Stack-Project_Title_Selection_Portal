@@ -21,7 +21,7 @@ const guideSchema = new mongoose.Schema({
         required: [true, 'Phone number is required'],
         match: [/.+\@.+\..+/, 'email must be a valid email address']
     },
-    // Field to track how many teams have selected this guide
+    // to track how many teams have selected this guide
     // teamCount: {
     //     type: Number,
     //     default: 0,

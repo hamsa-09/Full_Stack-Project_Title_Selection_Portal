@@ -24,6 +24,7 @@ import { AddTitlesComponent } from './add-titles/add-titles.component';
 import { TitleAndGuideAddComponent } from './pages/title-and-guide-add/title-and-guide-add.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { AdminNavComponent } from './pages/admin-nav/admin-nav.component';
+import { ExternalDownloadComponent } from './pages/external-download/external-download.component';
 
 
 
@@ -48,6 +49,7 @@ import { AdminNavComponent } from './pages/admin-nav/admin-nav.component';
     TitleAndGuideAddComponent,
     AdminPageComponent,
     AdminNavComponent,
+    ExternalDownloadComponent,
 
   ],
   imports: [

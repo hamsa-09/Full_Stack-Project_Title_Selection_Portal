@@ -27,7 +27,7 @@
       </div>
       
       <div class="form-group">
-        <label for="Projectselect" class="form-label">Project</label>
+        <label for="Projectselect" class="form-label">Project Title</label>
         <select class="form-select" id="Projectselect" formControlName="projectTitle">
           <option selected disabled>Select Project</option>
           <option *ngFor="let project of projectTitles" [value]="project._id">{{ project.internalTitle }}</option>
@@ -36,11 +36,12 @@
          Projectselection is required.
         </div>
       </div>
+
       <div class="form-group">
         <label for="Team-name" class="form-label">Team Name</label>
         <input type="text" class="form-control" id="T_name" formControlName="teamName" placeholder="Enter Team name">
-
       </div>
+
       <div class="form-group">
         <label for="Guideselect" class="form-label">Guide</label>
         <select class="form-select" id="Guideselect" formControlName="guide" required>
@@ -52,7 +53,6 @@
         <div *ngIf="internalForm.get('guide')?.invalid && internalForm.get('guide')?.touched" class="text-danger">
           Guide selection is required.
         </div>
-        
       </div>
 
       

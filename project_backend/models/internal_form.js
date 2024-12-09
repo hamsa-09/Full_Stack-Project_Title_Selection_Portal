@@ -106,4 +106,4 @@ const internalSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Internal_form', internalSchema);
+module.exports = mongoose.model('Internal_form', internalSchema,'internal_forms');

@@ -20,7 +20,7 @@ export class GuideComponent implements OnInit {
     // Log the email to verify it's retrieved correctly
     console.log('Guide Email:', this.email);
   
-    // Fetch the submissions based on the email
+    // Fetch  submissions based on the email
     if (this.email) {
       this.http.get<any[]>(`http://localhost:9000/project/internal/guide/${this.email}`).subscribe(
         (data) => {

@@ -27,10 +27,20 @@ const externalSchema = new mongoose.Schema({
         required: [true, 'Team name is required'],
         maxlength: [50, 'Team name must not exceed 50 characters']
     },
-    guide: {
+    guideName: {
         type: String,
         required: [true, 'Guide name is required'],
         maxlength: [100, 'Guide name must not exceed 100 characters']
+    },
+    guideDepartment: {
+        type: String,
+        required: [true, 'Guide department is required'],
+        maxlength: [100, 'Guide department must not exceed 100 characters']
+    },
+    guideEmail: {
+        type: String,
+        required: [true, 'Guide email is required'],
+        match: [/.+\@.+\..+/, 'Guide email must be a valid email address']
     },
     leaderName: {
         type: String,

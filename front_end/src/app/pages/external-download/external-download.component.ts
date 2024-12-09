@@ -6,11 +6,11 @@ import * as XLSX from 'xlsx';
 
 
 @Component({
-  selector: 'app-download',
-  templateUrl: './download.component.html',
-  styleUrl: './download.component.css'
+  selector: 'app-external-download',
+  templateUrl: './external-download.component.html',
+  styleUrl: './external-download.component.css'
 })
-export class DownloadComponent implements OnInit{
+export class ExternalDownloadComponent implements OnInit {
   approvedData: any[] = [];
 
   constructor(private http: HttpClient) {}
@@ -20,7 +20,7 @@ export class DownloadComponent implements OnInit{
   }
 
   fetchApprovedData(): void {
-    this.http.get<any[]>('http://localhost:9000/project/approved').subscribe(
+    this.http.get<any[]>('http://localhost:9000/project/approvedExternal').subscribe(
       (data) => {
         this.approvedData = data;
         console.log('Approved submissions:', data); // Log to check data

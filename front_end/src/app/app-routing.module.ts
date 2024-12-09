@@ -14,6 +14,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AddTitlesComponent } from './add-titles/add-titles.component';
 import { TitleAndGuideAddComponent } from './pages/title-and-guide-add/title-and-guide-add.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
+import { ExternalDownloadComponent } from './pages/external-download/external-download.component';
+
 const routes: Routes = [  { path: '', redirectTo: 'landpage', pathMatch: 'full' },
 { path: 'landpage', component: LandpageComponent },
 { path: 'login', component: LoginComponent },
@@ -27,6 +29,7 @@ const routes: Routes = [  { path: '', redirectTo: 'landpage', pathMatch: 'full' 
 { path:'dashboard',component: DashboardComponent},
 {path:'add_title',component: AddTitlesComponent},
 {path:'download',component: DownloadComponent},
+{path:'external_download',component:ExternalDownloadComponent},
 {path:'details_add',component:TitleAndGuideAddComponent},
 {path:'admin_page',component:AdminPageComponent}
 

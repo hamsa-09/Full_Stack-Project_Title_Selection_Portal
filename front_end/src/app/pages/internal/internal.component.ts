@@ -50,8 +50,8 @@ export class InternalComponent implements OnInit {
       member3Roll: ['', Validators.pattern(/^\d{7}[A-Za-z]{2}\d{3}$/)],
       email3: ['', Validators.email],
       department3: [''],
-      type: ['Internal'],  // Default value
-      status: ['Pending']  // Default value
+      type: ['Internal'], 
+      status: ['Pending']  
     });
   }
 

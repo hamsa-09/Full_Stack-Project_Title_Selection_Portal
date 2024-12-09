@@ -10,9 +10,9 @@ router.post('/internal', async (req, res) => {
             cluster,
             projectTitle,
             teamName,
-            guideName,          // Extract guideName
-            guideDepartment,     // Extract guideDepartment
-            guideEmail,          // Extract guideEmail
+            guideName,         
+            guideDepartment,     
+            guideEmail,          
             leaderName,
             leaderRoll,
             email1,
@@ -27,15 +27,14 @@ router.post('/internal', async (req, res) => {
             department3
         } = req.body;
 
-        // Create the new internal form submission with separate guide fields
         const formData = new Internal({
             teamSize,
             cluster,
             projectTitle,
             teamName,
-            guideName,           // Store guideName
-            guideDepartment,      // Store guideDepartment
-            guideEmail,           // Store guideEmail
+            guideName,           
+            guideDepartment,     
+            guideEmail,           
             leaderName,
             leaderRoll,
             email1,
@@ -48,8 +47,8 @@ router.post('/internal', async (req, res) => {
             member3Roll,
             email3,
             department3,
-            type: 'Internal',     // Default type to Internal
-            status: 'Pending'     // Default status to Pending
+            type: 'Internal',    
+            status: 'Pending'    
         });
 
         const savedForm = await formData.save();
@@ -61,16 +60,16 @@ router.post('/internal', async (req, res) => {
 
 router.get('/internal', async (req, res) => {
     try {
-        const submissions = await Internal.find(); // Fetch all submissions
-        res.status(200).json(submissions); // Return the submissions as JSON
+        const submissions = await Internal.find(); 
+        res.status(200).json(submissions); 
     } catch (err) {
         res.status(500).json({ message: err.message }); // Handle errors
     }
 });
 router.get('/internal/:emailID', async (req, res) => {
-    const emailID = req.params.emailID; // Extract email from URL parameters
+    const emailID = req.params.emailID; 
     try {
-        // Find submission by matching emailID with email1, email2, or email3
+       
         const submission = await Internal.findOne({
             $or: [{ email1: emailID }, { email2: emailID }, { email3: emailID }]
         });
@@ -126,5 +125,23 @@ router.patch('/update-status', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+router.get('/approved', async (req, res) => {
+    try {
+        const approvedSubmissions = await Internal.find({ status: { $regex: /^approved$/i } });
+        console.log("Approved Submissions:", approvedSubmissions); 
+
+        if (!approvedSubmissions || approvedSubmissions.length === 0) {
+            return res.status(404).json({ message: 'Submission not found' });
+        }
+
+        res.status(200).json(approvedSubmissions);
+    } catch (err) {
+        console.error("Error retrieving submissions:", err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
 
 module.exports = router;

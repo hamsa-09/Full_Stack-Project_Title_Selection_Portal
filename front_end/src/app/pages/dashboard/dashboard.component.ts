@@ -16,16 +16,33 @@ export class DashboardComponent implements OnInit {
     // Get the email from local storage
     this.email = localStorage.getItem('studentEmail');
 
-    // Fetch the student's registration data based on the email
     if (this.email) {
-      this.http.get(`http://localhost:9000/project/internal/${this.email}`).subscribe(
-        (data: any) => {
-          this.studentData = data;
-        },
-        (error) => {
-          console.error('Error fetching student data:', error);
-        }
-      );
+      // Try fetching from 'internal' endpoint
+      this.fetchStudentData('internal', () => {
+        // If no internal data is found, fallback to 'external' endpoint
+        this.fetchStudentData('external');
+      });
+    } else {
+      console.error('No student email found in local storage.');
     }
+  }
+
+  fetchStudentData(type: 'internal' | 'external', fallback?: () => void): void {
+    const apiUrl = `http://localhost:9000/project/${type}/${this.email}`;
+
+    this.http.get(apiUrl).subscribe(
+      (data: any) => {
+        this.studentData = data;
+        console.log(`${type} student data fetched successfully:`, data);
+      },
+      (error) => {
+        console.error(`Error fetching ${type} student data:`, error);
+
+        // If the error is a 404 and a fallback is provided, invoke the fallback
+        if (error.status === 404 && fallback) {
+          fallback();
+        }
+      }
+    );
   }
 }

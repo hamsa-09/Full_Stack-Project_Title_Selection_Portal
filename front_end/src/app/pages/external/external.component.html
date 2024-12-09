@@ -43,7 +43,7 @@
         <select class="form-select" id="Guideselect" formControlName="guide" required>
           <option selected disabled>Select Guide</option>
           <option *ngFor="let guide of guides" [value]="guide._id">
-            {{ guide.guideName }} - {{ guide.department }} - {{ guide.ph_no }}
+            {{ guide.guideName }} - {{ guide.department }} - {{ guide.email }}
           </option>
         </select>
         <div *ngIf="externalForm.get('guide')?.invalid && externalForm.get('guide')?.touched" class="text-danger">

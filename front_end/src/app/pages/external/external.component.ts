@@ -8,7 +8,7 @@ interface Guide {
   _id: string;
   guideName: string;
   department: string;
-  ph_no: string;
+  email: string;
 }
 
 @Component({
@@ -47,9 +47,9 @@ export class ExternalComponent implements OnInit {
       status: ['Pending']  // Default value
     });
 
-    // Subscribe to teamSize changes to enable/disable fields accordingly
-    this.externalForm.get('teamSize')?.valueChanges.subscribe(value => {
-      this.updateMemberFields(value);
+    // Listen for changes in the team size
+    this.externalForm.get('teamSize')?.valueChanges.subscribe((teamSize) => {
+      this.updateMemberFields(teamSize);
     });
   }
 
@@ -85,7 +85,7 @@ export class ExternalComponent implements OnInit {
       this.externalForm.get('department2')?.reset();
     }
 
-    if (teamSize === 3) {
+    if (teamSize == 3) {
       this.externalForm.get('member3Name')?.enable();
       this.externalForm.get('member3Roll')?.enable();
       this.externalForm.get('email3')?.enable();
@@ -104,7 +104,22 @@ export class ExternalComponent implements OnInit {
 
   onSubmit() {
     if (this.externalForm.valid) {
-      this.http.post('http://localhost:9000/project/external', this.externalForm.value)
+      const selectedGuide = this.guides.find(
+        guide => guide._id === this.externalForm.get('guide')?.value
+      );
+  
+      // Prepare the form data including guide details
+      const formData = {
+        ...this.externalForm.value,
+        guideName: selectedGuide ? selectedGuide.guideName : '',
+        guideDepartment: selectedGuide ? selectedGuide.department : '',
+        guideEmail: selectedGuide ? selectedGuide.email : ''
+      };
+  
+      console.log('Form Data:', formData);  // Ensure the guide details are included
+  
+      // Send form data to the backend
+      this.http.post('http://localhost:9000/project/external', formData)
         .subscribe(
           response => {
             console.log('Form submitted successfully', response);
@@ -116,7 +131,8 @@ export class ExternalComponent implements OnInit {
           }
         );
     } else {
+      console.log('Form is invalid:', this.externalForm.errors);
       alert('Please fill all required fields correctly.');
     }
-  }
-}
+  }  
+}  
