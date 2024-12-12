@@ -99,24 +99,46 @@ router.post('/login3', async (req, res) => {
     }
 });
 
-router.get('/check-email/:email', async (req, res) => {
-    const email = req.params.email;
+router.post('check-duplicate', async (req, res) => {
     try {
-        // Check both internal and external forms for the email
-        const internalSubmission = await Internal.findOne({
-            $or: [{ email1: email }, { email2: email }, { email3: email }]
-        });
-        const externalSubmission = await External.findOne({
-            $or: [{ email1: email }, { email2: email }, { email3: email }]
-        });
-
-        // Determine if email exists in any submission
-        const emailExists = internalSubmission || externalSubmission;
-        res.status(200).json({ emailExists: !!emailExists });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+      const { emails } = req.body; // An array of email IDs to check
+  
+      // Query both collections for duplicates
+      const internalDuplicates = await InternalForm.find({
+        $or: [
+          { email1: { $in: emails } },
+          { email2: { $in: emails } },
+          { email3: { $in: emails } },
+        ],
+      });
+  
+      const externalDuplicates = await ExternalForm.find({
+        $or: [
+          { email1: { $in: emails } },
+          { email2: { $in: emails } },
+          { email3: { $in: emails } },
+        ],
+      });
+  
+      const allDuplicates = [...internalDuplicates, ...externalDuplicates];
+  
+      if (allDuplicates.length > 0) {
+        // Collect duplicate email information
+        const existingEmails = allDuplicates.flatMap(entry => 
+          [entry.email1, entry.email2, entry.email3].filter(email => emails.includes(email))
+        );
+  
+        res.status(200).json({ duplicate: true, existingEmails });
+      } else {
+        res.status(200).json({ duplicate: false });
+      }
+    } catch (error) {
+      console.error('Error checking duplicates', error);
+      res.status(500).send('Server error');
     }
-});
+  });
+  
+ 
 
 
 

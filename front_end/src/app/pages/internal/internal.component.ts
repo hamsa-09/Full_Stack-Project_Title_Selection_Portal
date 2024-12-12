@@ -123,40 +123,60 @@ export class InternalComponent implements OnInit {
 
   onSubmit() {
     if (this.internalForm.valid) {
-      // Find the selected project and guide based on the ID
-      const selectedProject = this.projectTitles.find(
-        project => project._id === this.internalForm.get('projectTitle')?.value
-      );
-      const selectedGuide = this.guides.find(
-        guide => guide._id === this.internalForm.get('guide')?.value
-    );
-    
-    // Prepare the form data with separate guide fields
-    const formData = {
-        ...this.internalForm.value,
-        projectTitle: selectedProject ? selectedProject.internalTitle : '',
-        guideName: selectedGuide ? selectedGuide.guideName : '',
-        guideDepartment: selectedGuide ? selectedGuide.department : '',
-        guideEmail: selectedGuide ? selectedGuide.email : ''
-    };
-    
-    // Now send `formData` in the submission request
-    
-      console.log('Form Data:', formData);  // Log the final form data for debugging
-      this.http.post('http://localhost:9000/project/internal', formData)
+      const emails = [
+        this.internalForm.get('email1')?.value,
+        this.internalForm.get('email2')?.value,
+        this.internalForm.get('email3')?.value,
+      ].filter(email => email); 
+  
+     
+      this.http.post('http://localhost:9000/project/check-duplicate', { emails })
         .subscribe(
-          response => {
-            console.log('Form submitted successfully', response);
-            alert('Form submitted successfully!');
+          (response: any) => {
+            if (response.duplicate) {
+              alert(`Duplicate email(s) found: ${response.existingEmails.join(', ')}`);
+            } else {
+              
+              this.submitForm();
+            }
           },
-          error => {
-            console.error('Error submitting form', error);
-            alert('Error submitting the form. Please try again.');
+          (error: HttpErrorResponse) => {
+            console.error('Error checking duplicates', error);
+            alert('Error checking duplicates. Please try again.');
           }
         );
     } else {
-      console.log('Form is invalid:', this.internalForm.errors);  // Log validation errors
       alert('Please fill all required fields correctly.');
     }
+  }
+  
+  submitForm() {
+   
+    const selectedProject = this.projectTitles.find(
+      project => project._id === this.internalForm.get('projectTitle')?.value
+    );
+    const selectedGuide = this.guides.find(
+      guide => guide._id === this.internalForm.get('guide')?.value
+    );
+  
+    const formData = {
+      ...this.internalForm.value,
+      projectTitle: selectedProject ? selectedProject.internalTitle : '',
+      guideName: selectedGuide ? selectedGuide.guideName : '',
+      guideDepartment: selectedGuide ? selectedGuide.department : '',
+      guideEmail: selectedGuide ? selectedGuide.email : '',
+    };
+  
+    this.http.post('http://localhost:9000/project/internal', formData)
+      .subscribe(
+        response => {
+          console.log('Form submitted successfully', response);
+          alert('Form submitted successfully!');
+        },
+        error => {
+          console.error('Error submitting form', error);
+          alert('Error submitting the form. Please try again.');
+        }
+      );
   }
 }  

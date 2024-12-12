@@ -104,35 +104,46 @@ export class ExternalComponent implements OnInit {
 
   onSubmit() {
     if (this.externalForm.valid) {
-      const selectedGuide = this.guides.find(
-        guide => guide._id === this.externalForm.get('guide')?.value
-      );
-  
-      // Prepare the form data including guide details
-      const formData = {
-        ...this.externalForm.value,
-        guideName: selectedGuide ? selectedGuide.guideName : '',
-        guideDepartment: selectedGuide ? selectedGuide.department : '',
-        guideEmail: selectedGuide ? selectedGuide.email : ''
-      };
-  
-      console.log('Form Data:', formData);  // Ensure the guide details are included
-  
-      // Send form data to the backend
-      this.http.post('http://localhost:9000/project/external', formData)
+      const emails = [
+        this.externalForm.get('email1')?.value,
+        this.externalForm.get('email2')?.value,
+        this.externalForm.get('email3')?.value,
+      ].filter(email => email); // Remove null/undefined values
+
+      this.http.post('http://localhost:9000/project/check-duplicate', { emails })
         .subscribe(
-          response => {
-            console.log('Form submitted successfully', response);
-            alert('Form submitted successfully!');
+          (response: any) => {
+            if (response.duplicate) {
+              alert(`Duplicate email(s) found: ${response.existingEmails.join(', ')}`);
+            } else {
+              this.submitForm();
+            }
           },
-          error => {
-            console.error('Error submitting form', error);
-            alert('Error submitting the form. Please try again.');
+          (error: HttpErrorResponse) => {
+            console.error('Error checking duplicates', error);
+            alert('Error checking duplicates. Please try again.');
           }
         );
     } else {
-      console.log('Form is invalid:', this.externalForm.errors);
       alert('Please fill all required fields correctly.');
     }
-  }  
-}  
+  }
+
+  submitForm() {
+    const formData = {
+      ...this.externalForm.value,
+    };
+
+    this.http.post('http://localhost:9000/project/external', formData)
+      .subscribe(
+        (response) => {
+          console.log('Form submitted successfully', response);
+          alert('Form submitted successfully!');
+        },
+        (error: HttpErrorResponse) => {
+          console.error('Error submitting form', error);
+          alert('Error submitting the form. Please try again.');
+        }
+      );
+  }
+}
