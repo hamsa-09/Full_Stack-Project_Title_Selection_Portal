@@ -12,19 +12,17 @@ export class GuideComponent implements OnInit {
   email: string | null = '';
 
   constructor(private http: HttpClient) {}
-
+                                                                                                     
   ngOnInit(): void {
-    // Get the email from local storage
+    
     this.email = localStorage.getItem('guideEmail');
     
-    // Log the email to verify it's retrieved correctly
     console.log('Guide Email:', this.email);
   
-    // Fetch  submissions based on the email
     if (this.email) {
       this.http.get<any[]>(`http://localhost:9000/project/internal/guide/${this.email}`).subscribe(
         (data) => {
-          console.log('Fetched data:', data); // Log the fetched data for debugging
+          console.log('Fetched data:', data); 
           if (data && data.length > 0) {
             this.guideData = data.map(item => ({
               ...item,

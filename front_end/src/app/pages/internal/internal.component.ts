@@ -22,15 +22,15 @@ interface Guide {
   styleUrls: ['./internal.component.css']
 })
 export class InternalComponent implements OnInit {
-  internalForm: FormGroup;  // Declare the form group variable
+  internalForm: FormGroup;
   projectTitles: ProjectTitle[] = [];
   guides: Guide[] = [];
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private http: HttpClient,
     private guideService: GuideService,
-    private projectService: ProjectService // Inject ProjectService
+    private projectService: ProjectService
   ) {
     this.internalForm = this.fb.group({
       teamSize: ['', Validators.required],
@@ -50,28 +50,28 @@ export class InternalComponent implements OnInit {
       member3Roll: ['', Validators.pattern(/^\d{7}[A-Za-z]{2}\d{3}$/)],
       email3: ['', Validators.email],
       department3: [''],
-      type: ['Internal'], 
-      status: ['Pending']  
+      type: ['Internal'],
+      status: ['Pending']
     });
   }
 
   ngOnInit() {
     this.loadProjectTitles();
     this.loadGuides();
-    
+
     // Listen for changes in the team size
     this.internalForm.get('teamSize')?.valueChanges.subscribe((teamSize) => {
       this.updateMemberFieldsBasedOnTeamSize(teamSize);
     });
   }
-  
+
   updateMemberFieldsBasedOnTeamSize(teamSize: number) {
-    // Reset all member fields and disable them by default
-    this.internalForm.get('leaderName')?.enable(); // Always enabled for Team Leader
+    // Reset all member fields and disable them by default and Always enabled for Team Leader
+    this.internalForm.get('leaderName')?.enable();
     this.internalForm.get('leaderRoll')?.enable();
     this.internalForm.get('email1')?.enable();
     this.internalForm.get('department1')?.enable();
-  
+
     // Disable Member 2 and Member 3 fields
     this.internalForm.get('member2Name')?.disable();
     this.internalForm.get('member2Roll')?.disable();
@@ -81,7 +81,7 @@ export class InternalComponent implements OnInit {
     this.internalForm.get('member3Roll')?.disable();
     this.internalForm.get('email3')?.disable();
     this.internalForm.get('department3')?.disable();
-  
+
     // Enable fields based on the team size
     if (teamSize >= 2) {
       this.internalForm.get('member2Name')?.enable();
@@ -89,7 +89,7 @@ export class InternalComponent implements OnInit {
       this.internalForm.get('email2')?.enable();
       this.internalForm.get('department2')?.enable();
     }
-  
+
     if (teamSize == 3) {
       this.internalForm.get('member3Name')?.enable();
       this.internalForm.get('member3Roll')?.enable();
@@ -97,7 +97,7 @@ export class InternalComponent implements OnInit {
       this.internalForm.get('department3')?.enable();
     }
   }
-  
+
 
   loadProjectTitles() {
     this.projectService.getProjectTitles().subscribe(
@@ -127,16 +127,16 @@ export class InternalComponent implements OnInit {
         this.internalForm.get('email1')?.value,
         this.internalForm.get('email2')?.value,
         this.internalForm.get('email3')?.value,
-      ].filter(email => email); 
-  
-     
+      ].filter(email => email);
+
+
       this.http.post('http://localhost:9000/project/check-duplicate', { emails })
         .subscribe(
           (response: any) => {
             if (response.duplicate) {
               alert(`Duplicate email(s) found: ${response.existingEmails.join(', ')}`);
             } else {
-              
+
               this.submitForm();
             }
           },
@@ -149,16 +149,16 @@ export class InternalComponent implements OnInit {
       alert('Please fill all required fields correctly.');
     }
   }
-  
+
   submitForm() {
-   
+
     const selectedProject = this.projectTitles.find(
       project => project._id === this.internalForm.get('projectTitle')?.value
     );
     const selectedGuide = this.guides.find(
       guide => guide._id === this.internalForm.get('guide')?.value
     );
-  
+
     const formData = {
       ...this.internalForm.value,
       projectTitle: selectedProject ? selectedProject.internalTitle : '',
@@ -166,7 +166,7 @@ export class InternalComponent implements OnInit {
       guideDepartment: selectedGuide ? selectedGuide.department : '',
       guideEmail: selectedGuide ? selectedGuide.email : '',
     };
-  
+
     this.http.post('http://localhost:9000/project/internal', formData)
       .subscribe(
         response => {
@@ -179,4 +179,4 @@ export class InternalComponent implements OnInit {
         }
       );
   }
-}  
+}

@@ -1,10 +1,10 @@
 const express= require('express');
 const router = express.Router();
-const Login1 = require('../models/login'); 
+const Login1 = require('../models/login');
 const Login2 =require('../models/login2');
 const Login3 =require('../models/login3');
-const Internal = require('../models/internal_form');
-const External = require('../models/external_form');
+const InternalForm = require('../models/internal_form');
+const ExternalForm = require('../models/external_form');
 
 router.post('/register1', async (req, res) => {
     try {
@@ -13,7 +13,7 @@ router.post('/register1', async (req, res) => {
             password: req.body.password
         });
 
-        const savedUser = await user.save(); 
+        const savedUser = await user.save();
         res.status(201).send('User Registered Successfully in Login1');
     } catch (err) {
         res.status(500).send('Error: ' + err.message);
@@ -64,9 +64,9 @@ router.post('/login1', async (req, res) => {
 
         // If email and password match, login is successfull
         res.status(200).send('Login Successfull');
-    } 
+    }
     // error handling
-    catch (err) {   
+    catch (err) {
         res.status(500).send('Error: ' + err);
     }
 });
@@ -99,10 +99,10 @@ router.post('/login3', async (req, res) => {
     }
 });
 
-router.post('check-duplicate', async (req, res) => {
+router.post('/check-duplicate', async (req, res) => {
     try {
       const { emails } = req.body; // An array of email IDs to check
-  
+
       // Query both collections for duplicates
       const internalDuplicates = await InternalForm.find({
         $or: [
@@ -111,7 +111,7 @@ router.post('check-duplicate', async (req, res) => {
           { email3: { $in: emails } },
         ],
       });
-  
+
       const externalDuplicates = await ExternalForm.find({
         $or: [
           { email1: { $in: emails } },
@@ -119,15 +119,15 @@ router.post('check-duplicate', async (req, res) => {
           { email3: { $in: emails } },
         ],
       });
-  
+
       const allDuplicates = [...internalDuplicates, ...externalDuplicates];
-  
+
       if (allDuplicates.length > 0) {
         // Collect duplicate email information
-        const existingEmails = allDuplicates.flatMap(entry => 
+        const existingEmails = allDuplicates.flatMap(entry =>
           [entry.email1, entry.email2, entry.email3].filter(email => emails.includes(email))
         );
-  
+
         res.status(200).json({ duplicate: true, existingEmails });
       } else {
         res.status(200).json({ duplicate: false });
@@ -137,8 +137,8 @@ router.post('check-duplicate', async (req, res) => {
       res.status(500).send('Server error');
     }
   });
-  
- 
+
+
 
 
 
