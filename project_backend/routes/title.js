@@ -7,10 +7,10 @@ const sign_increment = require('../models/sign_increment');
 router.post('/add_titles', async (req, res) => {
     try {
         const nextSno = await sign_increment('add_title');
-        const { internalTitle } = req.body; 
+        const { internalTitle } = req.body;
           const titleData = new Title({
             S_no: nextSno,
-            internalTitle: internalTitle 
+            internalTitle: internalTitle
         });
 
         const savedTitle = await titleData.save();
@@ -21,7 +21,7 @@ router.post('/add_titles', async (req, res) => {
 });
 router.get('/get_titles', async (req, res) => {
     try {
-      const titles = await Title.find({}); 
+      const titles = await Title.find({});
       res.status(200).json(titles);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -42,13 +42,13 @@ router.delete('/delete_title/:id', async (req, res) => {
 });
 
 router.put('/update_title/:id', async (req, res) => {
-  try {
+  try { 
       const { id } = req.params;
       const { internalTitle } = req.body;
       const updatedTitle = await Title.findByIdAndUpdate(
           id,
           { internalTitle: internalTitle },
-          { new: true } 
+          { new: true }
       );
       if (!updatedTitle) {
           return res.status(404).json({ message: 'Title not found' });

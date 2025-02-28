@@ -35,6 +35,7 @@ p {
 
 
   .buttons {
+    display: flex;
     position: absolute;
     bottom: 2px;
     right: 20px;
@@ -43,7 +44,6 @@ p {
   .buttons button {
     margin-right: 10px;
     padding: 10px;
-
     border-radius: 5px;
     border: none;
     transition: 0.3s ease-in-out;
@@ -99,7 +99,7 @@ p {
      }
        .buttons{
         position: relative;
-        top: -10px;
+        top: 10px;
         left:50px;
        }
    }

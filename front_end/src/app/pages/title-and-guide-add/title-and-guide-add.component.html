@@ -2,8 +2,8 @@
 <div class="container">
     <div class="small-container">
       <h1>Projects Adding Page</h1>
-      <input type="text" name="project" placeholder="Add Projects" />
-      <button type="submit" id="sub-btn">Submit</button>
+      <input type="text" [(ngModel)]="internalTitle" name="project" placeholder="Add Projects" />
+      <button type="submit" id="sub-btn" (click)="addTitle()">Submit</button>
 
       <div class="table-container">
         <table>
@@ -12,61 +12,13 @@
             <th>PROJECT TITLE</th>
             <th>ACTIONS</th>
           </tr>
+          <tr *ngFor="let title of titles; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ title.internalTitle }}</td>
+            <td>
+              <button id="edit-btn">Edit</button>
+              <button id="del-btn" (click)="deleteTitle(title._id)">Delete</button>
 
-          <tr>
-            <td>1</td>
-            <td>Project1</td>
-            <td>
-              <button id="edit-btn">Edit</button>
-              <button id="del-btn">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Project1</td>
-            <td>
-              <button id="edit-btn">Edit</button>
-              <button id="del-btn">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Project1</td>
-            <td>
-              <button id="edit-btn">Edit</button>
-              <button id="del-btn">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Project1</td>
-            <td>
-              <button id="edit-btn">Edit</button>
-              <button id="del-btn">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Project1</td>
-            <td>
-              <button id="edit-btn">Edit</button>
-              <button id="del-btn">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Project1</td>
-            <td>
-              <button id="edit-btn">Edit</button>
-              <button id="del-btn">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Project1</td>
-            <td>
-              <button id="edit-btn">Edit</button>
-              <button id="del-btn">Delete</button>
             </td>
           </tr>
         </table>
@@ -75,15 +27,12 @@
     <div class="small-container">
       <h1>Guide Adding Form</h1>
       <div style="padding: 5px;">
-    
-      <input type="text" name="guide" placeholder="Guide Name.." />
-      <input
-        type="text"
-        name="Department"
-        placeholder="Guide Department..."
-      />
-      <input type="email" name="email" placeholder="Email..." />
-      <button type="submit" id="sub-btn">Submit</button>
+
+        <input type="text" [(ngModel)]="newGuideName" name="guide" placeholder="Guide Name.." />
+        <input type="text" [(ngModel)]="newGuideDepartment" name="Department" placeholder="Guide Department..." />
+        <input type="email" [(ngModel)]="newGuideEmail" name="email" placeholder="Email..." />
+        <button type="submit" id="sub-btn" (click)="addGuide()">Submit</button>
+
   </div>
 
       <div class="table-container">
@@ -96,76 +45,19 @@
             <th>ACTIONS</th>
           </tr>
 
-          <tr>
-            <td>1</td>
-            <td>Project1</td>
-            <td>CSE</td>
-            <td>guidecom</td>
+          <tr *ngFor="let guide of guides; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ guide. guideName }}</td>
+            <td>{{ guide.department }}</td>
+            <td>{{ guide.email }}</td>
             <td>
               <button id="edit-btn">Edit</button>
-              <button id="del-btn">Delete</button>
+              <button id="del-btn" (click)="deleteGuide(guide._id)">Delete</button>
+
             </td>
           </tr>
-          <tr>
-              <td>1</td>
-              <td>Project1</td>
-              <td>CSE</td>
-              <td>guidecom</td>
-              <td>
-                <button id="edit-btn">Edit</button>
-                <button id="del-btn">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Project1</td>
-              <td>CSE</td>
-              <td>guide</td>
-              <td>
-                <button id="edit-btn">Edit</button>
-                <button id="del-btn">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Project1</td>
-              <td>CSE</td>
-              <td>guide</td>
-              <td>
-                <button id="edit-btn">Edit</button>
-                <button id="del-btn">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Project1</td>
-              <td>CSE</td>
-              <td>guide</td>
-              <td>
-                <button id="edit-btn">Edit</button>
-                <button id="del-btn">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Project1</td>
-              <td>CSE</td>
-              <td>guide</td>
-              <td>
-                <button id="edit-btn">Edit</button>
-                <button id="del-btn">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Project1</td>
-              <td>CSE</td>
-              <td>guide</td>
-              <td>
-                <button id="edit-btn">Edit</button>
-                <button id="del-btn">Delete</button>
-              </td>
-            </tr>
+
+
         </table>
       </div>
     </div>

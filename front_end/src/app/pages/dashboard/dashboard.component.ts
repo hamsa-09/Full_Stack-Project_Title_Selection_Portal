@@ -27,22 +27,31 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  fetchStudentData(type: 'internal' | 'external', fallback?: () => void): void {
-    const apiUrl = `http://localhost:9000/project/${type}/${this.email}`;
+ fetchStudentData(type: 'internal' | 'external', fallback?: () => void): void {
+  const apiUrl = `http://localhost:9000/project/${type}/${this.email}`;
 
-    this.http.get(apiUrl).subscribe(
-      (data: any) => {
-        this.studentData = data;
-        console.log(`${type} student data fetched successfully:`, data);
-      },
-      (error) => {
-        console.error(`Error fetching ${type} student data:`, error);
+  console.log(`Fetching ${type} data from:`, apiUrl); // Debug log
 
-        // If the error is a 404 and a fallback is provided, invoke the fallback
-        if (error.status === 404 && fallback) {
+  this.http.get(apiUrl).subscribe(
+    (data: any) => {
+      if (Array.isArray(data) && data.length > 0) {
+        this.studentData = data[0]; // Take the first object from the array
+        console.log(`${type} student data fetched successfully:`, this.studentData);
+      } else {
+        console.warn(`No valid data found in ${type} response.`);
+        this.studentData = null; // Clear data if response is empty
+        if (fallback) {
           fallback();
         }
       }
-    );
-  }
+    },
+    (error) => {
+      console.error(`Error fetching ${type} student data:`, error);
+      if (error.status === 404 && fallback) {
+        fallback();
+      }
+    }
+  );
+}
+
 }

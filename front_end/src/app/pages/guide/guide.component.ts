@@ -1,57 +1,62 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorResponse } from '@angular/common/http'; // Import HttpErrorResponse
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-guide',
   templateUrl: './guide.component.html',
-  styleUrls: ['./guide.component.css']
+  styleUrls: ['./guide.component.css'],
 })
 export class GuideComponent implements OnInit {
-  guideData: any[] = []; // Changed to an array to hold multiple submissions
+  guideData: any[] = []; // Holds both Internal & External submissions
   email: string | null = '';
 
   constructor(private http: HttpClient) {}
-                                                                                                     
+
   ngOnInit(): void {
-    
     this.email = localStorage.getItem('guideEmail');
-    
     console.log('Guide Email:', this.email);
-  
+
     if (this.email) {
-      this.http.get<any[]>(`http://localhost:9000/project/internal/guide/${this.email}`).subscribe(
-        (data) => {
-          console.log('Fetched data:', data); 
-          if (data && data.length > 0) {
-            this.guideData = data.map(item => ({
-              ...item,
-              isDisabled: false // Initialize isDisabled to false for each guide
-            }));
-          } else {
-            console.error('No data found for this guide email.');
-          }
-        },
-        (error: HttpErrorResponse) => {
-          console.error('Error fetching submissions:', error);
-        }
-      );
+      this.fetchGuideSubmissions(this.email);
     }
   }
-  
-  updateStatus(guide: any, status: string): void {
-    this.http.patch(`http://localhost:9000/project/update-status`, {
-      submissionId: guide._id,  // Pass unique submission ID
-      status: status
-    }).subscribe(
-      response => {
-        console.log('Update response:', response); // Log the response for debugging
-        guide.status = status;
-        guide.isDisabled = true; // Disable buttons after selection for this form
+
+  fetchGuideSubmissions(guideEmail: string): void {
+    this.http.get<any[]>(`http://localhost:9000/project/guide/${guideEmail}`).subscribe(
+      (data) => {
+        console.log('Fetched data:', data);
+        if (Array.isArray(data) && data.length > 0) {
+          this.guideData = data.map((item) => ({
+            ...item,
+            isDisabled: item.status.toLowerCase() === 'approved', // Disable only approved items
+          }));
+        } else {
+          console.warn('No submissions found for this guide email.');
+          this.guideData = [];
+        }
       },
       (error: HttpErrorResponse) => {
-        console.error('Error updating status:', error);
+        console.error('Error fetching submissions:', error);
       }
     );
   }
-}  
+
+  updateStatus(guide: any, status: string): void {
+    this.http
+      .patch(`http://localhost:9000/project/update-status`, {
+        submissionId: guide._id, // Ensure ID is passed correctly
+        status: status,
+      })
+      .subscribe(
+        (response) => {
+          console.log('Status updated successfully:', response);
+          guide.status = status;
+          guide.isDisabled = true; // Disable button after approving
+        },
+        (error: HttpErrorResponse) => {
+          console.error('Error updating status:', error);
+        }
+      );
+  }
+}

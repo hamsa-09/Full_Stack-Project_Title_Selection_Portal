@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DataService {
-  private baseUrl = 'http://localhost:9000';
+  private baseUrl = 'http://localhost:9000/project';
 
   constructor(private http: HttpClient) {}
 
@@ -25,4 +25,11 @@ export class DataService {
   getGuides(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/get_guides`);
   }
+  deleteTitle(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete_title/${id}`);
+  }
+  deleteGuide(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete_guide/${id}`);
+  }
+
 }

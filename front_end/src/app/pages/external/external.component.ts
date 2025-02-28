@@ -21,7 +21,7 @@ export class ExternalComponent implements OnInit {
   guides: Guide[] = [];
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private http: HttpClient,
     private guideService: GuideService
   ) {
@@ -103,6 +103,25 @@ export class ExternalComponent implements OnInit {
   }
 
   onSubmit() {
+    const formData = {
+        ...this.externalForm.value,
+        guideName: this.guides.find(g => g._id === this.externalForm.value.guide)?.guideName || '',
+        guideDepartment: this.guides.find(g => g._id === this.externalForm.value.guide)?.department || '',
+        guideEmail: this.guides.find(g => g._id === this.externalForm.value.guide)?.email || '',
+      };
+
+      this.http.post('http://localhost:9000/project/external', formData)
+        .subscribe(
+          (response) => {
+            console.log('Form submitted successfully', response);
+            alert('Form submitted successfully!');
+          },
+          (error: HttpErrorResponse) => {
+            console.error('Error submitting form', error);
+            alert('Error submitting the form. Please try again.');
+          }
+        );
+
     if (this.externalForm.valid) {
       const emails = [
         this.externalForm.get('email1')?.value,

@@ -25,10 +25,10 @@ router.post('/register2', async (req, res) => {
     try {
         const user = new Login2({
             email: req.body.email,
-            password: req.body.password // Store plain text password
+            password: req.body.password
         });
 
-        const savedUser = await user.save(); // Save user to the DB
+        const savedUser = await user.save();
         res.status(201).send('User Registered Successfully in Login2');
     } catch (err) {
         res.status(500).send('Error: ' + err.message);
@@ -40,10 +40,10 @@ router.post('/register3', async (req, res) => {
     try {
         const user = new Login3({
             email: req.body.email,
-            password: req.body.password // Store plain text password
+            password: req.body.password
         });
 
-        const savedUser = await user.save(); // Save user to the DB
+        const savedUser = await user.save();
         res.status(201).send('User Registered Successfully in Login3');
     } catch (err) {
         res.status(500).send('Error: ' + err.message);
@@ -102,8 +102,6 @@ router.post('/login3', async (req, res) => {
 router.post('/check-duplicate', async (req, res) => {
     try {
       const { emails } = req.body; // An array of email IDs to check
-
-      // Query both collections for duplicates
       const internalDuplicates = await InternalForm.find({
         $or: [
           { email1: { $in: emails } },
@@ -137,6 +135,59 @@ router.post('/check-duplicate', async (req, res) => {
       res.status(500).send('Server error');
     }
   });
+  router.get('/guide/:guideEmail', async (req, res) => {
+    try {
+        const { guideEmail } = req.params;
+        console.log(`Searching for guideEmail: ${guideEmail}`);
+
+        const internalForms = await InternalForm.find({
+            guideEmail: { $regex: new RegExp(guideEmail, 'i') }
+        });
+
+        const externalForms = await ExternalForm.find({
+            guideEmail: { $regex: new RegExp(guideEmail, 'i') }
+        });
+
+        console.log(`Internal Forms Found:`, internalForms);
+        console.log(`External Forms Found:`, externalForms);
+
+        const allForms = [...internalForms, ...externalForms]; // Merge both submissions
+
+        if (allForms.length === 0) {
+            return res.status(404).json({ message: 'No forms found for this guide.' });
+        }
+
+        res.status(200).json(allForms);
+    } catch (err) {
+        console.error("Error retrieving submissions:", err);
+        res.status(500).json({ message: "Internal Server Error", error: err.message });
+    }
+});
+
+router.patch('/update-status', async (req, res) => {
+    const { submissionId, status } = req.body;
+
+    try {
+        let updatedSubmission;
+
+        // Try updating in Internal collection
+        updatedSubmission = await InternalForm.findByIdAndUpdate(submissionId, { status }, { new: true });
+
+        // If not found in Internal, try updating in External collection
+        if (!updatedSubmission) {
+            updatedSubmission = await ExternalForm.findByIdAndUpdate(submissionId, { status }, { new: true });
+        }
+
+        // If still not found, return an error
+        if (!updatedSubmission) {
+            return res.status(404).json({ message: 'Submission not found' });
+        }
+
+        res.status(200).json({ message: 'Status updated successfully', updatedSubmission });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
 
 

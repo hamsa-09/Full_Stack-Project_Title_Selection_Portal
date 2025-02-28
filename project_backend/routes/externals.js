@@ -9,8 +9,8 @@ router.post('/external', async (req, res) => {
             domain,
             projectTitle,
             teamName,
-            guideName,         
-            guideDepartment,     
+            guideName,
+            guideDepartment,
             guideEmail,
             leaderName,
             leaderRoll,
@@ -31,8 +31,8 @@ router.post('/external', async (req, res) => {
             domain,
             projectTitle,
             teamName,
-            guideName,         
-            guideDepartment,     
+            guideName,
+            guideDepartment,
             guideEmail,
             leaderName,
             leaderRoll,
@@ -46,22 +46,22 @@ router.post('/external', async (req, res) => {
             member3Roll,
             email3,
             department3,
-            type: 'External', 
-            status: 'Pending' 
+            type: 'External',
+            status: 'Pending'
         });
 
 
         const savedForm = await formData.save();
-        res.status(201).json(savedForm);  
+        res.status(201).json(savedForm);
     } catch (err) {
-        res.status(400).json({ message: err.message }); 
+        res.status(400).json({ message: err.message });
     }
 });
 
 router.get('/approvedExternal', async (req, res) => {
     try {
         const approvedSubmissions = await External.find({ status: { $regex: /^approved$/i } });
-        console.log("Approved Submissions:", approvedSubmissions); 
+        console.log("Approved Submissions:", approvedSubmissions);
 
         if (!approvedSubmissions || approvedSubmissions.length === 0) {
             return res.status(404).json({ message: 'Submission not found' });
@@ -74,9 +74,9 @@ router.get('/approvedExternal', async (req, res) => {
     }
 });
 router.get('/external/:emailID', async (req, res) => {
-    const emailID = req.params.emailID; 
+    const emailID = req.params.emailID;
     try {
-       
+
         const submission = await External.findOne({
             $or: [{ email1: emailID }, { email2: emailID }, { email3: emailID }]
         });
@@ -84,10 +84,48 @@ router.get('/external/:emailID', async (req, res) => {
         if (!submission) {
             return res.status(404).json({ message: 'Submission not found' });
         }
-        
-        res.status(200).json(submission); // Return the submission if found
+
+        res.status(200).json(submission); // Returns the submission if found
     } catch (err) {
         res.status(500).json({ message: err.message }); // Handle errors
     }
 });
+
+// router.get('/external/guide/:guideEmail', async (req, res) => {
+//     try {
+//         const { guideEmail } = req.params;
+//         console.log(`Searching for guideEmail: ${guideEmail}`);
+
+//         const formsForGuide = await External.find({
+//             guideEmail: { $regex: new RegExp(guideEmail, 'i') }
+//         });
+
+//         console.log(`Forms found: ${formsForGuide}`);
+
+//         if (formsForGuide.length === 0) {
+//             return res.status(404).json({ message: 'No forms found for the specified guide.' });
+//         }
+
+//         res.status(200).json(formsForGuide);
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
+// });
+router.get('/exapproved', async (req, res) => {
+    try {
+        const approvedSubmissions = await External.find({ status: { $regex: /^approved$/i } });
+        console.log("Approved Submissions:", approvedSubmissions);
+
+        if (!approvedSubmissions || approvedSubmissions.length === 0) {
+            return res.status(404).json({ message: 'Submission not found' });
+        }
+
+        res.status(200).json(approvedSubmissions);
+    } catch (err) {
+        console.error("Error retrieving submissions:", err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
 module.exports = router;
